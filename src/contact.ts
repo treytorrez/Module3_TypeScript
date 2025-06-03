@@ -19,7 +19,6 @@ export class Contact {
   }
 
   toString() {
-    return `| ${this.fname.padEnd(15)} | ${this.lname?.padEnd(15) ?? ""} | ${this.phone.padEnd(10)} | ${this.email?.padEnd(30) ?? ""} | ${this.notes?.toString().padEnd(20)} | `;
-     //TODO: notes is probably going to need to be changed here,                        ^^and the padding of phone too
+    // return `| ${this.fname.padEnd(15)} | ${this.lname?.padEnd(15) ?? " ".repeat(15)} | ${this.phone.padEnd(12)} | ${this.email?.padEnd(30) ?? " ".repeat(30)} | ${(this.notes?.toString().substring(0,27)+ "...").padEnd(30)} | `;
   }
 }
