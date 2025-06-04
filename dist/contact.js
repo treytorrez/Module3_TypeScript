@@ -7,7 +7,6 @@ export class Contact {
         this.notes = notes;
     }
     toString() {
-        return `| ${this.fname.padEnd(15)} | ${this.lname?.padEnd(15) ?? " ".repeat(15)} | ${this.phone.padEnd(12)} | ${this.email?.padEnd(30) ?? " ".repeat(30)} | ${(this.notes?.toString().substring(0, 27) + "...").padEnd(30)} | `;
-        //TODO: notes is probably going to need to be changed,                        ^^and the padding of phone too
+        // return `| ${this.fname.padEnd(15)} | ${this.lname?.padEnd(15) ?? " ".repeat(15)} | ${this.phone.padEnd(12)} | ${this.email?.padEnd(30) ?? " ".repeat(30)} | ${(this.notes?.toString().substring(0,27)+ "...").padEnd(30)} | `;
     }
 }
