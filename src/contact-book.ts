@@ -5,7 +5,7 @@ import { Contact } from "./contact.js";
 import prompts from "prompts";
 
 export class ContactBook {
-  hash: Map<string, Contact> = new Map();
+  // hash: Map<string, Contact> = new Map(); //TODO:Is this still needed?
   list: Contact[] = [];
 
   constructor() {}
@@ -63,11 +63,15 @@ export class ContactBook {
       responses.email,
       [responses.note]
     );
-    this.hash.set(responses.phone, newContact);
+    // this.hash.set(responses.phone, newContact); //TODO:Is this still needed?
     this.list.push(newContact);
   }
 
-  removeContact() {} //TODO
+  async removeContact(): Promise<void> {
+    const choice: Contact = await this.listAll();
+    const choiceIndex: number = this.list.indexOf(choice);
+    this.list.splice(choiceIndex, 1);
+  } //TODO
 
   //DEPRECEATED..for now
   // listAll() {
@@ -91,27 +95,42 @@ export class ContactBook {
   //   );
   // }
 
-  async listAll() {
-
+  async listAll(): Promise<Contact> {
     // Creates a list of prompt.Choice to display in the selection list
     const choicesList: prompts.Choice[] = [];
-    for (let i = 0; i < this.list.length; i++){
-      const current:Contact = this.list[i];
-      choicesList.push({title:`${current.fname} ${current.lname}`, description:current.phone, value:current})
+    for (let i = 0; i < this.list.length; i++) {
+      const current: Contact = this.list[i];
+      choicesList.push({
+        title: `${current.fname} ${current.lname ?? ""}`,
+        description: current.phone,
+        value: current,
+      });
     }
-    
-    const list = await prompts({
+
+    const choice: prompts.Answers<"choice"> = await prompts({
       type: "autocomplete",
-      name: "Contacts",
-      message: "Select a contact to view",
+      name: "choice",
+      message: "Select a contact",
       choices: choicesList,
     });
-
-
+    return choice.choice;
   }
   //DEPRECEATED..for now
   // private _contactToTableRow(c: Contact): string {
   //   return `| ${c.fname.padEnd(15)} | ${c.lname?.padEnd(15) ?? " ".repeat(15)} | ${c.phone.padEnd(12)} | ${c.email?.padEnd(30) ?? " ".repeat(30)} | ${(c.notes?.toString().substring(0, 27) + "...").padEnd(30)} | `;
   //   //TODO: notes is probably going to need to be changed,                        ^^and the padding of phone too
   // }
+  async addNotes(c: Contact) {
+    const newNote: string = (
+      await prompts({
+        type: "text",
+        name: "name",
+        message: "What is the new note? ",
+      })
+    ).name;
+
+    if (newNote != null) {
+      c.addNotes(newNote);
+    }
+  }
 }

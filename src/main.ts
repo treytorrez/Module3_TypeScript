@@ -8,12 +8,11 @@ const prompt = promptSync();
 const book: ContactBook = new ContactBook();
 const menu: string = `
 Welcome to your contact book, choose an option:
-1. View all contacts
+1. View contacts
 2. Add a contact
 3. Delete a contact
-4. Edit a contact
-5. Search for a contact
-6. Close`;
+4. Add notes to a contact
+5. Close`;
 
 while (true) {
   console.log(menu);
@@ -27,79 +26,82 @@ while (true) {
   }
 
   switch (choiceParsed) {
-    case 1: // View all contacts
-      await book.listAll();
+    case 1: {
+      // View all contacts
+      //TODO:handle 0 contacts
+      //TODO: move display code into contact-book?
+      const contact: Contact = await book.listAll();
+      console.log(contact.toString());
       break;
+    }
     case 2: // Add a contact
       await book.addContact();
       break;
     case 3: // Delete a contact
-      //TODO
+      await book.removeContact();
       break;
-    case 4: // Edit a contact
-      //TODO
+    case 4: // Add notes to a contact
+      await book.addNotes(await book.listAll()); //HACK: move this code into contact-book -> addNotes or something; this works for now
       break;
-    case 5: // Search for a contact
-      //TODO
-      break;
-    case 6: // Close
-      //TODO
+    case 5: // Close
+      process.exit(0);
       break;
 
     case 42: //add filler content
-      book.hash.set(
-        "307-555-1234",
-        new Contact("Alice", "Smith", "307-555-1234", "alice@example.com", [
-          "Met at conference",
-          "Follow up in June",
-        ])
-      );
-      book.hash.set(
-        "284-555-5678",
-        new Contact("Bob", null, "284-555-5678", null, null)
-      );
-      book.hash.set(
-        "261-555-8765",
-        new Contact("Carol", "Johnson", "261-555-8765", "carolj@example.org", [
-          "VIP client",
-        ])
-      );
-      book.hash.set(
-        "238-555-4321",
-        new Contact("David", "Lee", "238-555-4321", "david.lee@mail.com", [])
-      );
-      book.hash.set(
-        "215-555-0000",
-        new Contact("Eve", null, "215-555-0000", "eve@mail.net", [
-          "New lead",
-          "Requested brochure",
-        ])
-      );
-      book.hash.set(
-        "192-555-1111",
-        new Contact("Frank", "O'Connor", "192-555-1111", null, null)
-      );
-      book.hash.set(
-        "169-555-2222",
-        new Contact("Grace", "Kim", "169-555-2222", "grace.kim@domain.com", [
-          "Important",
-          "Call before 5pm",
-        ])
-      );
-      book.hash.set(
-        "146-555-3333",
-        new Contact("Hank", "Miller", "146-555-3333", null, ["Needs follow-up"])
-      );
-      book.hash.set(
-        "123-555-4444",
-        new Contact("Ivy", null, "123-555-4444", "ivy@mail.com", null)
-      );
-      book.hash.set(
-        "100-555-5555",
-        new Contact("Jack", "Brown", "100-555-5555", "jack.brown@company.com", [
-          "Met at trade show",
-        ])
-      );
+      //TODO:Is hash still needed?
+      // book.hash.set(
+      //   "307-555-1234",
+      //   new Contact("Alice", "Smith", "307-555-1234", "alice@example.com", [
+      //     "Met at conference",
+      //     "Follow up in June",
+      //   ])
+      // );
+      // book.hash.set(
+      //   "284-555-5678",
+      //   new Contact("Bob", null, "284-555-5678", null, null)
+      // );
+      // book.hash.set(
+      //   "261-555-8765",
+      //   new Contact("Carol", "Johnson", "261-555-8765", "carolj@example.org", [
+      //     "VIP client",
+      //   ])
+      // );
+      // book.hash.set(
+      //   "238-555-4321",
+      //   new Contact("David", "Lee", "238-555-4321", "david.lee@mail.com", [])
+      // );
+      // book.hash.set(
+      //   "215-555-0000",
+      //   new Contact("Eve", null, "215-555-0000", "eve@mail.net", [
+      //     "New lead",
+      //     "Requested brochure",
+      //   ])
+      // );
+      // book.hash.set(
+      //   "192-555-1111",
+      //   new Contact("Frank", "O'Connor", "192-555-1111", null, null)
+      // );
+      // book.hash.set(
+      //   "169-555-2222",
+      //   new Contact("Grace", "Kim", "169-555-2222", "grace.kim@domain.com", [
+      //     "Important",
+      //     "Call before 5pm",
+      //   ])
+      // );
+      // book.hash.set(
+      //   "146-555-3333",
+      //   new Contact("Hank", "Miller", "146-555-3333", null, ["Needs follow-up"])
+      // );
+      // book.hash.set(
+      //   "123-555-4444",
+      //   new Contact("Ivy", null, "123-555-4444", "ivy@mail.com", null)
+      // );
+      // book.hash.set(
+      //   "100-555-5555",
+      //   new Contact("Jack", "Brown", "100-555-5555", "jack.brown@company.com", [
+      //     "Met at trade show",
+      //   ])
+      // );
       book.list.push(
         new Contact("Alice", "Smith", "307-555-1234", "alice@example.com", [
           "Met at conference",
