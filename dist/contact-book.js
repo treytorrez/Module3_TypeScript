@@ -5,7 +5,7 @@ import { Contact } from "./contact.js";
 import prompts from "prompts";
 export class ContactBook {
     constructor() {
-        this.hash = new Map();
+        // hash: Map<string, Contact> = new Map(); //TODO:Is this still needed?
         this.list = [];
     }
     async addContact() {
@@ -46,10 +46,14 @@ export class ContactBook {
             { type: "text", name: "note", message: "Add a note? " },
         ]);
         const newContact = new Contact(responses.fname, responses.lname, responses.phone, responses.email, [responses.note]);
-        this.hash.set(responses.phone, newContact);
+        // this.hash.set(responses.phone, newContact); //TODO:Is this still needed?
         this.list.push(newContact);
     }
-    removeContact() { } //TODO
+    async removeContact() {
+        const choice = (await this.listAll()).choice;
+        const choiceIndex = this.list.indexOf(choice);
+        this.list.splice(choiceIndex, 1);
+    } //TODO
     //DEPRECEATED..for now
     // listAll() {
     //   // table of all contacts with headers
@@ -77,11 +81,12 @@ export class ContactBook {
             const current = this.list[i];
             choicesList.push({ title: `${current.fname} ${current.lname}`, description: current.phone, value: current });
         }
-        const list = await prompts({
+        const choice = await prompts({
             type: "autocomplete",
-            name: "Contacts",
+            name: "choice",
             message: "Select a contact to view",
             choices: choicesList,
         });
+        return choice;
     }
 }
