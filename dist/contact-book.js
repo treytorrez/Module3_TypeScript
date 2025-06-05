@@ -80,7 +80,7 @@ export class ContactBook {
         for (let i = 0; i < this.list.length; i++) {
             const current = this.list[i];
             choicesList.push({
-                title: `${current.fname} ${current.lname}`,
+                title: `${current.fname} ${current.lname ?? ""}`,
                 description: current.phone,
                 value: current,
             });

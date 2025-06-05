@@ -1,8 +1,8 @@
 import { Contact } from "./contact.js";
 // import { Parser } from './parser.js'
 import promptSync from "prompt-sync";
-// import prompts from 'prompts';
 import { ContactBook } from "./contact-book.js";
+import prompts from "prompts";
 const prompt = promptSync();
 const book = new ContactBook();
 const menu = `
@@ -13,16 +13,27 @@ Welcome to your contact book, choose an option:
 4. Add notes to a contact
 5. Close`;
 while (true) {
-    console.log(menu);
-    const choice = prompt("Make a selection: ");
-    let choiceParsed;
-    if (choice == null) {
-        break;
-    }
-    else {
-        choiceParsed = parseInt(choice);
-    }
-    switch (choiceParsed) {
+    // console.log(menu);
+    // const choice: string | null = prompt("Make a selection: ");
+    // let choiceParsed: number;
+    // if (choice == null) {
+    //   break;
+    // } else {
+    //   choiceParsed = parseInt(choice);
+    // }
+    const menu = await prompts({
+        type: 'select',
+        name: 'choice',
+        message: 'Welcome to your contact book! Select an option',
+        choices: [
+            { title: 'View contacts', description: 'View all your contacts and select one to see details', value: 1 },
+            { title: 'Add a contact', value: 2 },
+            { title: 'Delete a contact', value: 3 },
+            { title: 'Add notes to a contact', value: 4 },
+            { title: 'Close', value: 5 },
+        ]
+    });
+    switch (menu.choice) {
         case 1: {
             // View all contacts
             //TODO:handle 0 contacts

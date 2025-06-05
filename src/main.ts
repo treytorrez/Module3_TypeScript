@@ -1,31 +1,45 @@
 import { Contact } from "./contact.js";
 // import { Parser } from './parser.js'
-import promptSync from "prompt-sync";
-// import prompts from 'prompts';
 import { ContactBook } from "./contact-book.js";
-const prompt = promptSync();
+import prompts from "prompts";
 
 const book: ContactBook = new ContactBook();
-const menu: string = `
-Welcome to your contact book, choose an option:
-1. View contacts
-2. Add a contact
-3. Delete a contact
-4. Add notes to a contact
-5. Close`;
 
 while (true) {
-  console.log(menu);
+  // console.log(menu);
 
-  const choice: string | null = prompt("Make a selection: ");
-  let choiceParsed: number;
-  if (choice == null) {
-    break;
-  } else {
-    choiceParsed = parseInt(choice);
-  }
+  // const choice: string | null = prompt("Make a selection: ");
+  // let choiceParsed: number;
+  // if (choice == null) {
+  //   break;
+  // } else {
+  //   choiceParsed = parseInt(choice);
+  // }
 
-  switch (choiceParsed) {
+  const menu: prompts.Answers<"choice"> = await prompts({
+    type: "select",
+    name: "choice",
+    message: "Welcome to your contact book! Select an option",
+    choices: [
+      {
+        title: "View contacts",
+        description: "View all your contacts and select one to see details",
+        value: 1,
+      },
+      { title: "Add a contact", value: 2 },
+      { title: "Delete a contact", value: 3 },
+      { title: "Add notes to a contact", value: 4 },
+      { title: "Close", description: "Exit the program", value: 5 },
+      {
+        title: "Fill Contact Book",
+        description:
+          "Fill the contact book with some filler content, for demo purposes",
+        value: 42,
+      },
+    ],
+  });
+
+  switch (menu.choice) {
     case 1: {
       // View all contacts
       //TODO:handle 0 contacts

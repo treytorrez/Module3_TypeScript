@@ -1,2 +1,3 @@
+import ;
 export class Parser {
 }
