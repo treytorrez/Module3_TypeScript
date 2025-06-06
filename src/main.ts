@@ -32,7 +32,9 @@ while (true) {
       { title: "Add a contact", value: 2 },
       { title: "Delete a contact", value: 3 },
       { title: "Add notes to a contact", value: 4 },
-      { title: "Close", description: "Exit the program", value: 5 },
+      { title: "Save Contacts to disk", value: 5 },
+      { title: "Get Contacts from disk", value: 6 },
+      { title: "Close", description: "Exit the program", value: 7},
       {
         title: "Fill Contact Book",
         description:
@@ -68,6 +70,12 @@ while (true) {
       if (c) await book.addNotes(c);
       break;
     }
+    case 5:
+      book.store();
+      break;
+    case 6:
+      book.retrieve();
+      break;
     case 42: //add filler content
       //TODO:Is hash still needed?
       // book.hash.set(
@@ -178,7 +186,7 @@ while (true) {
     default: //
       //TODO
       break;
-    case 5: // Close
+    case 7: // Close
       process.exit(0);
   }
 }
