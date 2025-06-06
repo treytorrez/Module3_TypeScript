@@ -2,10 +2,13 @@ import { Contact } from "./contact.js";
 // import { Parser } from './parser.js'
 import { ContactBook } from "./contact-book.js";
 import prompts from "prompts";
+import PromptSync from "prompt-sync";
+const prompt = PromptSync()
 
 const book: ContactBook = new ContactBook();
 
 while (true) {
+  console.clear();
   // console.log(menu);
 
   // const choice: string | null = prompt("Make a selection: ");
@@ -44,8 +47,13 @@ while (true) {
       // View all contacts
       //TODO:handle 0 contacts
       //TODO: move display code into contact-book?
-      const contact: Contact = await book.listAll();
-      console.log(contact.toString());
+      const contact: Contact | null = await book.listAll();
+      if (contact) console.log(contact.toString());
+      console.log();
+      console.log();
+      
+      prompt("Press enter to continue")
+      
       break;
     }
     case 2: // Add a contact
@@ -54,13 +62,12 @@ while (true) {
     case 3: // Delete a contact
       await book.removeContact();
       break;
-    case 4: // Add notes to a contact
-      await book.addNotes(await book.listAll()); //HACK: move this code into contact-book -> addNotes or something; this works for now
+    case 4: {
+      // Add notes to a contact
+      const c = await book.listAll();
+      if (c) await book.addNotes(c);
       break;
-    case 5: // Close
-      process.exit(0);
-      break;
-
+    }
     case 42: //add filler content
       //TODO:Is hash still needed?
       // book.hash.set(
@@ -171,5 +178,7 @@ while (true) {
     default: //
       //TODO
       break;
+    case 5: // Close
+      process.exit(0);
   }
 }

@@ -59,7 +59,7 @@ export class ContactBook {
     const newContact: Contact = new Contact(
       responses.fname,
       responses.lname,
-      responses.phone,
+      responses.phone.replace(/\D/g, ""),
       responses.email,
       [responses.note]
     );
@@ -68,9 +68,11 @@ export class ContactBook {
   }
 
   async removeContact(): Promise<void> {
-    const choice: Contact = await this.listAll();
-    const choiceIndex: number = this.list.indexOf(choice);
-    this.list.splice(choiceIndex, 1);
+    const choice: Contact | null = await this.listAll();
+    if (choice != null) {
+      const choiceIndex: number = this.list.indexOf(choice);
+      this.list.splice(choiceIndex, 1);
+    }
   } //TODO
 
   //DEPRECEATED..for now
@@ -95,25 +97,31 @@ export class ContactBook {
   //   );
   // }
 
-  async listAll(): Promise<Contact> {
+  async listAll(): Promise<Contact | null> {
     // Creates a list of prompt.Choice to display in the selection list
     const choicesList: prompts.Choice[] = [];
-    for (let i = 0; i < this.list.length; i++) {
-      const current: Contact = this.list[i];
-      choicesList.push({
-        title: `${current.fname} ${current.lname ?? ""}`,
-        description: current.phone,
-        value: current,
-      });
-    }
+    if (this.list.length == 0) {
+      console.log("No Contacts found!");
+      setTimeout(() => {}, 3000);
+      return null;
+    } else {
+      for (let i = 0; i < this.list.length; i++) {
+        const current: Contact = this.list[i];
+        choicesList.push({
+          title: `${current.fname} ${current.lname ?? ""}`,
+          description: current.phone,
+          value: current,
+        });
+      }
 
-    const choice: prompts.Answers<"choice"> = await prompts({
-      type: "autocomplete",
-      name: "choice",
-      message: "Select a contact",
-      choices: choicesList,
-    });
-    return choice.choice;
+      const choice: prompts.Answers<"choice"> = await prompts({
+        type: "autocomplete",
+        name: "choice",
+        message: "Select a contact",
+        choices: choicesList,
+      });
+      return choice.choice;
+    }
   }
   //DEPRECEATED..for now
   // private _contactToTableRow(c: Contact): string {

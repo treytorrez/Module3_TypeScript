@@ -45,14 +45,16 @@ export class ContactBook {
             // Prompts for note =========================================================
             { type: "text", name: "note", message: "Add a note? " },
         ]);
-        const newContact = new Contact(responses.fname, responses.lname, responses.phone, responses.email, [responses.note]);
+        const newContact = new Contact(responses.fname, responses.lname, responses.phone.replace(/\D/g, ""), responses.email, [responses.note]);
         // this.hash.set(responses.phone, newContact); //TODO:Is this still needed?
         this.list.push(newContact);
     }
     async removeContact() {
         const choice = await this.listAll();
-        const choiceIndex = this.list.indexOf(choice);
-        this.list.splice(choiceIndex, 1);
+        if (choice != null) {
+            const choiceIndex = this.list.indexOf(choice);
+            this.list.splice(choiceIndex, 1);
+        }
     } //TODO
     //DEPRECEATED..for now
     // listAll() {
@@ -77,21 +79,28 @@ export class ContactBook {
     async listAll() {
         // Creates a list of prompt.Choice to display in the selection list
         const choicesList = [];
-        for (let i = 0; i < this.list.length; i++) {
-            const current = this.list[i];
-            choicesList.push({
-                title: `${current.fname} ${current.lname ?? ""}`,
-                description: current.phone,
-                value: current,
-            });
+        if (this.list.length == 0) {
+            console.log("No Contacts found!");
+            setTimeout(() => { }, 3000);
+            return null;
         }
-        const choice = await prompts({
-            type: "autocomplete",
-            name: "choice",
-            message: "Select a contact",
-            choices: choicesList,
-        });
-        return choice.choice;
+        else {
+            for (let i = 0; i < this.list.length; i++) {
+                const current = this.list[i];
+                choicesList.push({
+                    title: `${current.fname} ${current.lname ?? ""}`,
+                    description: current.phone,
+                    value: current,
+                });
+            }
+            const choice = await prompts({
+                type: "autocomplete",
+                name: "choice",
+                message: "Select a contact",
+                choices: choicesList,
+            });
+            return choice.choice;
+        }
     }
     //DEPRECEATED..for now
     // private _contactToTableRow(c: Contact): string {

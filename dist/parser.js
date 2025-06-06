@@ -1,3 +1,3 @@
-import ;
-export class Parser {
-}
+export {};
+// export class Parser{
+// }
