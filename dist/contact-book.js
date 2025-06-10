@@ -3,7 +3,7 @@ import { Contact } from "./contact.js";
 // import promptSync from "prompt-sync";
 // const prompt = promptSync();
 import prompts from "prompts";
-import fs from 'fs';
+import fs from "fs";
 export class ContactBook {
     constructor() {
         // hash: Map<string, Contact> = new Map(); //TODO:Is this still needed?
@@ -124,6 +124,6 @@ export class ContactBook {
     retrieve() {
         const jsonIn = fs.readFileSync("contacts.book", "utf-8");
         const arr = JSON.parse(jsonIn);
-        this.list = arr.map(obj => new Contact(obj.fname, obj.lname, obj.phone, obj.email, obj.notes));
+        this.list = arr.map((obj) => new Contact(obj.fname, obj.lname, obj.phone, obj.email, obj.notes));
     }
 }
