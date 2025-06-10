@@ -29,8 +29,8 @@ while (true) {
             { title: "Delete a contact", value: 3 },
             { title: "Add notes to a contact", value: 4 },
             { title: "Save Contacts to disk", value: 5 },
-            { title: "Get Contacts to disk", value: 6 },
-            { title: "Close", description: "Exit the program", value: 6 },
+            { title: "Get Contacts from disk", value: 6 },
+            { title: "Close", description: "Exit the program", value: 7 },
             {
                 title: "Fill Contact Book",
                 description: "Fill the contact book with some filler content, for demo purposes",

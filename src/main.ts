@@ -3,7 +3,7 @@ import { Contact } from "./contact.js";
 import { ContactBook } from "./contact-book.js";
 import prompts from "prompts";
 import PromptSync from "prompt-sync";
-const prompt = PromptSync()
+const prompt = PromptSync();
 
 const book: ContactBook = new ContactBook();
 
@@ -34,7 +34,7 @@ while (true) {
       { title: "Add notes to a contact", value: 4 },
       { title: "Save Contacts to disk", value: 5 },
       { title: "Get Contacts from disk", value: 6 },
-      { title: "Close", description: "Exit the program", value: 7},
+      { title: "Close", description: "Exit the program", value: 7 },
       {
         title: "Fill Contact Book",
         description:
@@ -53,9 +53,9 @@ while (true) {
       if (contact) console.log(contact.toString());
       console.log();
       console.log();
-      
-      prompt("Press enter to continue")
-      
+
+      prompt("Press enter to continue");
+
       break;
     }
     case 2: // Add a contact

@@ -149,6 +149,9 @@ export class ContactBook {
 
   retrieve(){
     const jsonIn: string = fs.readFileSync("contacts.book","utf-8")
-    this.list = JSON.parse(jsonIn)
+    const arr = JSON.parse(jsonIn) as Contact[]
+    this.list = arr.map(obj =>
+  new Contact(obj.fname, obj.lname, obj.phone, obj.email, obj.notes)
+);
   }
 }
