@@ -3,7 +3,7 @@ import { Contact } from "./contact.js";
 // import promptSync from "prompt-sync";
 // const prompt = promptSync();
 import prompts from "prompts";
-import fs from 'fs';
+import fs from "fs";
 
 export class ContactBook {
   // hash: Map<string, Contact> = new Map(); //TODO:Is this still needed?
@@ -143,15 +143,16 @@ export class ContactBook {
     }
   }
 
-  store(){
+  store() {
     fs.writeFileSync("contacts.book", JSON.stringify(this.list, null, 2));
   }
 
-  retrieve(){
-    const jsonIn: string = fs.readFileSync("contacts.book","utf-8")
-    const arr = JSON.parse(jsonIn) as Contact[]
-    this.list = arr.map(obj =>
-  new Contact(obj.fname, obj.lname, obj.phone, obj.email, obj.notes)
-);
+  retrieve() {
+    const jsonIn: string = fs.readFileSync("contacts.book", "utf-8");
+    const arr = JSON.parse(jsonIn) as Contact[];
+    this.list = arr.map(
+      (obj) =>
+        new Contact(obj.fname, obj.lname, obj.phone, obj.email, obj.notes)
+    );
   }
 }
